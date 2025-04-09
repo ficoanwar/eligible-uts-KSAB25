@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cek Eligibility UTS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 8px;
+      font-size: 16px;
+    }
+    #hasil {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Cek Eligibility UTS</h2>
+  <input type="text" id="namaInput" placeholder="Masukkan nama lengkap" />
+  <button onclick="cek()">Cek</button>
+
+  <div id="hasil"></div>
+
+  <script>
+    const data = [
+  {
+    "nama": "abdi sihol simanjuntak",
+    "email": "abdisiholsimanjuntak2005@mail.ugm.ac.id",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Abdul Djabar Nento",
+    "email": "lukynento00@gmail.com",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Abdul Ghafuur Muhammad Muri",
+    "email": "ghafuurmuri2006@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Adam Adhitya Prayoga",
+    "email": "adamadhityaprayoga@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00"
+    ]
+  },
+  {
+    "nama": "Agus Sofian Eka Hidayat",
+    "email": "aguseka.unnes@gmail.com",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "AHMAD ISYBATUSH SHOLIHIN",
+    "email": "ahmadisybatushsholihin@mail.ugm.ac.id",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Alfia Sabrina Oktavia",
+    "email": "alfiasabrinaoktavia@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00"
+    ]
+  },
+  {
+    "nama": "Alfian Frederik Hutagalung",
+    "email": "alfianfrederikhutagalung@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Alfonsius Lintang",
+    "email": "alfonsius490@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Andreas Syaloom Kurniawan",
+    "email": "andreassyaloomkurniawan@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Angelia Yulita",
+    "email": "angelia.yulita@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Arif Rahman Nurhidayat",
+    "email": "arifrahmannurhidayat@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Arifin Hardiyanto",
+    "email": "arifinhardiyanto505@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Arni Krisna Akbar",
+    "email": "arnikrisnaakbar1999@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Asyifa Alfiyanti",
+    "email": "asyifaalfiyanti11@gmail.com",
+    "jumlah_kehadiran": 1,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Atia Maulia",
+    "email": "atiamaulia@mail.ugm.ac.id",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Ayomi Sasmito",
+    "email": "ayomi.sasmito@pmbs.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "azlya syifana",
+    "email": "azlyasyifana@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Balqis Aulia Akmala",
+    "email": "balqisauliaakis@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Bella Cindy Thalita",
+    "email": "bellacindyt@gmail.com",
+    "jumlah_kehadiran": 1,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Dara Irsalina",
+    "email": "dara.irsalina03@gmail.com",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Devi Atirotun Muthohharoh",
+    "email": "devimuthohharoh@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Dwi Cahyo Putra",
+    "email": "dwicahyoputra2004@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Dyah Prita Anggraini, S.Si, M.Si",
+    "email": "dyahprita86@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Eka Kunthi Novitasari",
+    "email": "ekakunthinovitasari@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Ellina Vinajahi Syafa",
+    "email": "ellinavinajahisyafa@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Fanny Adelia Permatasari",
+    "email": "fannyadeliapermatasari@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Farah Armelya Chaerunnisa",
+    "email": "faraharmelyachaerunnisa@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ]
+  },
+  {
+    "nama": "Faris Zukhruf Firdaus",
+    "email": "fariszukhruffirdaus@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Fathu Nurrahman",
+    "email": "fathunurrahman05@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "FAYZA ZAHRA PUTRI ANDU",
+    "email": "fayzazahraputriandu@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00"
+    ]
+  },
+  {
+    "nama": "Febryantama Panji Christiawan",
+    "email": "febryantamapanjichristiawan@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Fenniya Angel Lee",
+    "email": "fenniyaangel@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Florenta",
+    "email": "florentaasukendar@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Frista Azzahra",
+    "email": "fristaazzhr@gmail.com",
+    "jumlah_kehadiran": 1,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Gloria Evelina Setiawan",
+    "email": "gloriaevelinasetiawan@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Gusti Ayu Dwi Yanti",
+    "email": "gustiayudwiyanti2001@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Hariansyah",
+    "email": "hariansyah1223@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Harindra Litsyachnaztyasia Berlian",
+    "email": "harindra.litsyachnaztyasia.berlian@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Haryo Tetuko",
+    "email": "tetukokoharyo@gmail.com",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "HENI HERIYANI",
+    "email": "HENIEHERIYANI@GMAIL.COM",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-25 00:00:00"
+    ]
+  },
+  {
+    "nama": "Imelda Ardian Putri",
+    "email": "imeldaardptri@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "ITSNA KHAIRANI AMELIA RIZKA",
+    "email": "itsnakhairaniameliarizka@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Jhoni Oktavianus Simanjuntak",
+    "email": "jhoni.simanjuntak17@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "JODY",
+    "email": "jody2005@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "JOSEPHINE RUTH GRACEILLA WAITA",
+    "email": "josephineruthgraceillawaita@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Kevina Alal A'la",
+    "email": "kevinaakla15@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Kezia Theophila",
+    "email": "keziatheophila@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Khairun Nisa Humolungo",
+    "email": "nisahumolungo@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Lalu Muhammad Cholis Nabhan Hakim",
+    "email": "lalu.hakim@ugm",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Larasati Raharjo",
+    "email": "larasatiraharjo4@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00"
+    ]
+  },
+  {
+    "nama": "Luthfi hanif alif basya",
+    "email": "Basyahanif05@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "M. Fajryl Amien Musyafa",
+    "email": "fajrilamin@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Magh Heryan Tudaan",
+    "email": "17221015@student.itk.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-25 00:00:00"
+    ]
+  },
+  {
+    "nama": "Mamat Abas",
+    "email": "mamatabas19@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "MH. Alan Maulana Ishaq",
+    "email": "mhalanmaulanaishaq@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Mohammad Firdaus",
+    "email": "mohammad.firdaus@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Muh Asnur",
+    "email": "asnurgmt@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Muhammad Fakhrurrozi",
+    "email": "muhammadfakhrurrozi@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Muhammad Farhan Perwira Nasution",
+    "email": "Farhanfjbz8@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Muhammad Irfan Hanifiandi Kurnia",
+    "email": "irfanokurniano@gmail.com",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "MUHAMMAD IRSYAD ALFARIZI",
+    "email": "muhammadirsyadalfarizi543463@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Muhammad Naufal Nazar",
+    "email": "muhammadnaufalnazar@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Muhammad Rifqi Najib",
+    "email": "rifqinajib2410@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Muhammad Zidane Alhalita",
+    "email": "mzidaneal21@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Munadiyatul Jannah",
+    "email": "munadiyatuljannah245@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Muthaqin Dhamar Widhoro Jati",
+    "email": "widarajati@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Naufal Faiq Muyassar",
+    "email": "naufalfaiqmuyassar@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Ni Wayan Kalinda Putri Karini",
+    "email": "niwayankalindaputrikarini@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Obadiah Theophilus Hermawan",
+    "email": "obadiah.hrth@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Priscilla Natalie Nurtanio",
+    "email": "priscillanatalien@gmail.com",
+    "jumlah_kehadiran": 1,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Priska Sari Dewi",
+    "email": "priskasaridewi1998@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Rahma Tri Utami",
+    "email": "utamirahma12@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "RAYVANDA SEPTYA ARIANTI",
+    "email": "rayvandaseptyaarianti@mail.ugm.ac.id",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Reza Oktafian Rahman",
+    "email": "rezaoktafianrahman2003@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Ripa Indriyanti",
+    "email": "ripaindriyanti76@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "RIVALDI SIHITE",
+    "email": "rivaldisihite761@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Rizki Agustina",
+    "email": "rizkiagustina272@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Roro Anteng",
+    "email": "roroanteng@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Rossa Fitria Halim",
+    "email": "rossafitriahalim@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Ryan Sebastian",
+    "email": "ryansebastian502823@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Salma Lathifah Soesmono",
+    "email": "ssoesmono@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Sandy Salomo Saruan",
+    "email": "sandysalomosaruan@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Septa Dwi Cahya",
+    "email": "septadwicahya9997@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Shinta Aulia Azizah",
+    "email": "shinta.azizah06@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Silvia Rochmatul Ujma",
+    "email": "rohmatulsilvia8@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Siti Komariah",
+    "email": "siti.komariah@alumni.uii.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Sitti Zaharianti Tanaiyo",
+    "email": "ssiittii11@gmail.com",
+    "jumlah_kehadiran": 1,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "SRI FITRIYANTI",
+    "email": "srifitriyanti4488@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ]
+  },
+  {
+    "nama": "Surya Widjaya Wiyono",
+    "email": "suryawidjayawiyono2004@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "SYIFA' SALSABILA",
+    "email": "syifasalsabila112@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Taffa Hanifar Ilyasa",
+    "email": "taffahanifar@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Taufik Hasan Wau",
+    "email": "taufik.hasan1703@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Teguh Iman Perdana",
+    "email": "teguh.i@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Tika Deliani",
+    "email": "tikadelianii@gmail.com",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Toyibah",
+    "email": "tooyyy15@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Trecy Elisabet Tioralina Saragih",
+    "email": "saragihtrecy3@gmail.com",
+    "jumlah_kehadiran": 1,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Twenty Yunita Anggie Hutasoit",
+    "email": "twentyyunitaanggiehutasoit@mail.ugm.ac.id",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Ulfa Chairiah",
+    "email": "ulfachairiah2000@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Uvi Dwian Kencono",
+    "email": "uvikencono@gmail.com",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Victorius Chendryanto",
+    "email": "victoriuschendryanto@mail.ugm.ac.id",
+    "jumlah_kehadiran": 4,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": []
+  },
+  {
+    "nama": "Vivin Aprilia Manjaruni",
+    "email": "vivinapriliamanjaruni@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Yohanes Novandi Kurniawan Lazuardi",
+    "email": "yohanyos74@gmail.com",
+    "jumlah_kehadiran": 3,
+    "eligible_UTS": true,
+    "tanggal_hadir": [
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00"
+    ]
+  },
+  {
+    "nama": "Yulianto S.Si.",
+    "email": "adamgading20@gmail.com",
+    "jumlah_kehadiran": 0,
+    "eligible_UTS": false,
+    "tanggal_hadir": [],
+    "tanggal_tidak_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00",
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  },
+  {
+    "nama": "Yuvens Andrew Prathama",
+    "email": "yuvensandrewprathama@mail.ugm.ac.id",
+    "jumlah_kehadiran": 2,
+    "eligible_UTS": false,
+    "tanggal_hadir": [
+      "2025-02-22 00:00:00",
+      "2025-02-25 00:00:00"
+    ],
+    "tanggal_tidak_hadir": [
+      "2025-03-08 00:00:00",
+      "2025-04-08 00:00:00"
+    ]
+  }
+];
+   function formatTanggal(tgl) {
+      return tgl.split(" ")[0]; // ambil hanya bagian tanggal
+    }
+
+    function cek() {
+      const input = document.getElementById("namaInput").value.trim().toLowerCase();
+      const peserta = data.find(d => (d.nama || "").toLowerCase() === input);
+      const hasilDiv = document.getElementById("hasil");
+
+      if (!peserta) {
+        hasilDiv.innerHTML = "<p>Nama tidak ditemukan.</p>";
+        return;
+      }
+
+      const hadir = peserta.tanggal_hadir.map(formatTanggal);
+      const absen = peserta.tanggal_tidak_hadir.map(formatTanggal);
+      const eligible = peserta.eligible_UTS;
+
+      hasilDiv.innerHTML = `
+        <p><strong>Status:</strong> ${eligible ? "<span style='color:green;'>Eligible ✅</span>" : "<span style='color:red;'>Not Eligible ❌</span>"}</p>
+        <p><strong>Jumlah Hadir:</strong> ${hadir.length}</p>
+        <p><strong>Tanggal Hadir:</strong> ${hadir.join(", ") || "Tidak ada"}</p>
+        <p><strong>Tanggal Tidak Hadir:</strong> ${absen.join(", ") || "Tidak ada"}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
